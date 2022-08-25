@@ -8,6 +8,7 @@ import com.adityagupta.arcompanion.api.helpers.WikipediaHelper
 import com.adityagupta.arcompanion.api.interfaces.Api
 import com.adityagupta.arcompanion.api.interfaces.WikipediaAPI
 import com.adityagupta.data.OxfordWord
+import com.adityagupta.data.WikiData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,12 @@ class MeaningActivityViewModel: ViewModel() {
     private val _wordOxford = MutableLiveData<OxfordWord>()
     val wordOxford : LiveData<OxfordWord> = _wordOxford
 
+    private val _rootedWord = MutableLiveData<String>()
+    val rootedWord: LiveData<String> = _rootedWord
+
+    private val _wikiData = MutableLiveData<WikiData>()
+    val wikiData: LiveData<WikiData> = _wikiData
+
     private val oxfordApi = RetrofitHelper.getInstance().create(Api::class.java)
     private val wikipediaAPI = WikipediaHelper.getInstance().create(WikipediaAPI::class.java)
 
@@ -23,10 +30,10 @@ class MeaningActivityViewModel: ViewModel() {
     fun getOxfordWordMeaning(word: String){
         GlobalScope.launch {
             val result = oxfordApi.getRootWord(word?: "hello")
-            val rootedWord = result.body()!!.results[0].lexicalEntries[0].inflectionOf[0].text.toString()
+            var rtwd = result.body()!!.results[0].lexicalEntries[0].inflectionOf[0].text.toString()
+            _rootedWord.postValue(rtwd)
 
-            val finalResult =  oxfordApi.getDefinition(rootedWord?: "hello")
-            val wikiResult = wikipediaAPI.getPageDetails(rootedWord, 1)
+            val finalResult =  oxfordApi.getDefinition(rtwd?: "hello")
 
             val wordObject: OxfordWord = OxfordWord(
                 finalResult.body()?.results?.get(0)?.word!!,
@@ -35,6 +42,20 @@ class MeaningActivityViewModel: ViewModel() {
                 finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.pronunciations?.get(0)?.audioFile.toString()!!
             )
             _wordOxford.postValue(wordObject)
+        }
+    }
+
+    fun getWikiData(word: String){
+        GlobalScope.launch {
+            val wikiResult = wikipediaAPI.getPageDetails(word ?: "error", 1)
+            val wikidata: WikiData = WikiData(
+                wikiResult.body()!!.pages[0].title,
+                wikiResult.body()!!.pages[0].excerpt,
+            )
+
+            _wikiData.postValue(wikidata)
+
+
         }
     }
 }

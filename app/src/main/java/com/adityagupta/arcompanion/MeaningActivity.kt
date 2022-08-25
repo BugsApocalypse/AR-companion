@@ -43,8 +43,8 @@ class MeaningActivity : AppCompatActivity() {
 
         val word = intent.getStringExtra("word")
 
-
         model.getOxfordWordMeaning(word!!)
+        model.getWikiData(word)
 
         model.wordOxford.observe(this, Observer { word ->
             viewBinding.progressBar.visibility = View.INVISIBLE
@@ -58,25 +58,19 @@ class MeaningActivity : AppCompatActivity() {
                 playAudio(word.audioUrl)
             }
         })
-        /*runOnUiThread(Runnable {
 
-
+        model.wikiData.observe(this, Observer {
             viewBinding.wikiConstraintLayout.setOnClickListener {
-                startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", rootedWord))
+                startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", model.rootedWord.value))
             }
 
-            viewBinding.wikiTitle.text = wikiResult.body()!!.pages[0].title
-            viewBinding.wikiDescription.text = wikiResult.body()!!.pages[0].excerpt
-            if(wikiResult.body()!!.pages[0].thumbnail != null) {
-                Picasso.with(applicationContext)
-                    .load("https:" + (wikiResult.body()!!.pages[0].thumbnail!!.url))
-                    .into(viewBinding.wikiImageView)
-            }
-            Log.i("something",finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.pronunciations?.get(0)?.audioFile.toString() )
-        })*/
+            viewBinding.wikiTitle.text = it.title
+            viewBinding.wikiDescription.text =it.description
+//            Picasso.with(applicationContext)
+//                .load("https:" + (it)) 
+//                .into(viewBinding.wikiImageView)
 
-
-
+        })
     }
 
     private fun playAudio(audio: String?) {
