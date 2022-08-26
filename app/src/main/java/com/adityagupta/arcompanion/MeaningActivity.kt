@@ -67,7 +67,7 @@ class MeaningActivity : AppCompatActivity() {
             viewBinding.wikiTitle.text = it.title
             viewBinding.wikiDescription.text =it.description
 //            Picasso.with(applicationContext)
-//                .load("https:" + (it)) 
+//                .load("https:" + (it))
 //                .into(viewBinding.wikiImageView)
 
         })
