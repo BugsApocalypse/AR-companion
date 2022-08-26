@@ -47,15 +47,20 @@ class MeaningActivity : AppCompatActivity() {
         model.getWikiData(word)
 
         model.wordOxford.observe(this, Observer { word ->
-            viewBinding.progressBar.visibility = View.INVISIBLE
-            viewBinding.consLayout5.visibility = View.VISIBLE
-            viewBinding.wikiConstraintLayout.visibility = View.VISIBLE
-            viewBinding.wikiTitleText.visibility = View.VISIBLE
-            viewBinding.wordTitle.text = word.title
-            viewBinding.wordDef1.text = word.definition
-            viewBinding.wordExample1.text =  word.example
-            viewBinding.speaker.setOnClickListener {
-                playAudio(word.audioUrl)
+            if(word.title == "error"){
+                Toast.makeText(applicationContext, "Something went wrong!! :(", Toast.LENGTH_SHORT).show()
+                finish()
+            }else {
+                viewBinding.progressBar.visibility = View.INVISIBLE
+                viewBinding.consLayout5.visibility = View.VISIBLE
+                viewBinding.wikiConstraintLayout.visibility = View.VISIBLE
+                viewBinding.wikiTitleText.visibility = View.VISIBLE
+                viewBinding.wordTitle.text = word.title
+                viewBinding.wordDef1.text = word.definition
+                viewBinding.wordExample1.text = word.example
+                viewBinding.speaker.setOnClickListener {
+                    playAudio(word.audioUrl)
+                }
             }
         })
 

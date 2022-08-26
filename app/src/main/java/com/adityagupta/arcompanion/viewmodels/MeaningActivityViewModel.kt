@@ -32,16 +32,12 @@ class MeaningActivityViewModel(
 
 
     fun getOxfordWordMeaning(word: String){
-/*
-            _rootedWord.postValue(rtwd)
-*/
-            viewModelScope.launch {
+         viewModelScope.launch {
                 val result = meaningRepository.makeOxfordRequest(word)
 
                 _wordOxford.postValue(result)
+                _rootedWord.postValue(wordOxford.value?.title ?: "error")
             }
-
-
 
     }
 
