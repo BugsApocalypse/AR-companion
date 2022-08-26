@@ -7,14 +7,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.adityagupta.arcompanion.api.helpers.RetrofitHelper
 import com.adityagupta.arcompanion.api.helpers.WikipediaHelper
 import com.adityagupta.arcompanion.api.interfaces.Api
 import com.adityagupta.arcompanion.api.interfaces.WikipediaAPI
 import com.adityagupta.arcompanion.databinding.ActivityMeaningBinding
+import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
+import com.adityagupta.data.OxfordWord
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,56 +32,50 @@ class MeaningActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMeaningBinding
     lateinit var mediaPlayer: MediaPlayer
 
-    private val _wordTitle = MutableLiveData<String>()
-    val wordTitle : LiveData<String> = _wordTitle
+    val model: MeaningActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meaning)
+
         viewBinding = ActivityMeaningBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         val word = intent.getStringExtra("word")
-        var rootedWord = ""
 
-        val oxfordApi = RetrofitHelper.getInstance().create(Api::class.java)
-        val wikipediaAPI = WikipediaHelper.getInstance().create(WikipediaAPI::class.java)
+        model.getOxfordWordMeaning(word!!)
+        model.getWikiData(word)
 
-        GlobalScope.launch {
-            val result = oxfordApi.getRootWord(word?: "hello")
-            rootedWord = result.body()!!.results[0].lexicalEntries[0].inflectionOf[0].text.toString()
-
-            val finalResult =  oxfordApi.getDefinition(rootedWord?: "hello")
-            val wikiResult = wikipediaAPI.getPageDetails(rootedWord, 1)
-            runOnUiThread(Runnable {
-
+        model.wordOxford.observe(this, Observer { word ->
+            if(word.title == "error"){
+                Toast.makeText(applicationContext, "Something went wrong!! :(", Toast.LENGTH_SHORT).show()
+                finish()
+            }else {
                 viewBinding.progressBar.visibility = View.INVISIBLE
                 viewBinding.consLayout5.visibility = View.VISIBLE
                 viewBinding.wikiConstraintLayout.visibility = View.VISIBLE
                 viewBinding.wikiTitleText.visibility = View.VISIBLE
-                viewBinding.wordTitle.text = finalResult.body()?.results?.get(0)?.word ?: "hello"
-                viewBinding.wordDef1.text = finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.senses?.get(0)?.definitions?.get(0) ?: "none"
-                viewBinding.wordExample1.text = finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.senses?.get(0)?.examples?.get(0)?.text ?: "none"
+                viewBinding.wordTitle.text = word.title
+                viewBinding.wordDef1.text = word.definition
+                viewBinding.wordExample1.text = word.example
                 viewBinding.speaker.setOnClickListener {
-                    playAudio(finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.pronunciations?.get(0)?.audioFile.toString())
+                    playAudio(word.audioUrl)
                 }
+            }
+        })
 
-                viewBinding.wikiConstraintLayout.setOnClickListener {
-                    startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", rootedWord))
-                }
+        model.wikiData.observe(this, Observer {
+            viewBinding.wikiConstraintLayout.setOnClickListener {
+                startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", model.rootedWord.value))
+            }
 
-                viewBinding.wikiTitle.text = wikiResult.body()!!.pages[0].title
-                viewBinding.wikiDescription.text = wikiResult.body()!!.pages[0].excerpt
-                if(wikiResult.body()!!.pages[0].thumbnail != null) {
-                    Picasso.with(applicationContext)
-                        .load("https:" + (wikiResult.body()!!.pages[0].thumbnail!!.url))
-                        .into(viewBinding.wikiImageView)
-                }
-                Log.i("something",finalResult.body()?.results?.get(0)?.lexicalEntries?.get(0)?.entries?.get(0)?.pronunciations?.get(0)?.audioFile.toString() )
-            })
-        }
+            viewBinding.wikiTitle.text = it.title
+            viewBinding.wikiDescription.text =it.description
+//            Picasso.with(applicationContext)
+//                .load("https:" + (it))
+//                .into(viewBinding.wikiImageView)
 
-
+        })
     }
 
     private fun playAudio(audio: String?) {
