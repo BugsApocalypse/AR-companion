@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="#040726"
     tools:context=".MainActivity">
 
 
@@ -12,7 +12,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/apercu_pro_bold"
         android:text="AR"
         android:textColor="@color/white"
         android:textFontWeight="700"
@@ -28,9 +28,9 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="COMPANION"
+        android:fontFamily="@font/apercu_pro_bold"
         android:letterSpacing="0.12"
+        android:text="COMPANION"
         android:textColor="@color/white"
         android:textFontWeight="700"
         android:textSize="38dp"
@@ -44,12 +44,12 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
+        android:layout_marginTop="150dp"
         android:alpha="0.8"
         android:backgroundTint="@color/white"
         android:rotationX="0"
         android:text="Click to scan"
         android:textColor="@color/black"
-        android:layout_marginTop="150dp"
 
         android:textFontWeight="700"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,13 +63,13 @@
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:gravity="center"
+        android:paddingBottom="5dp"
         android:text="ⒸTeam Bugs Apocalypse | 2022 "
         android:textColor="@color/white"
         android:textFontWeight="700"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingBottom="5dp"
         app:layout_constraintStart_toStartOf="parent" />
 
 
