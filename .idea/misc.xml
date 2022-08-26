@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1305" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/gradient_background.xml" value="0.104" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_arcompanion_1__1_.xml" value="0.1305" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_arcompanion_icon.xml" value="0.1305" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1305" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/layout/activity_image_display.xml" value="0.1" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/layout/activity_meaning.xml" value="0.23229166666666667" />
