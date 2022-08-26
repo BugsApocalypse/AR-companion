@@ -21,6 +21,7 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.adityagupta.arcompanion.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        installSplashScreen()
         setContentView(viewBinding.root)
 
 

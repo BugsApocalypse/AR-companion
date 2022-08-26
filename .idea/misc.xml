@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1305" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/gradient_background.xml" value="0.104" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_arcompanion_1__1_.xml" value="0.1305" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_arcompanion_icon.xml" value="0.1305" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1305" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/layout/activity_image_display.xml" value="0.1" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/layout/activity_meaning.xml" value="0.23229166666666667" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/layout/activity_wikipedia_web_view.xml" value="0.23229166666666667" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1305" />
+        <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1305" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/AR-companion/app/src/main/res/xml/network_security_config.xml" value="0.23125" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/ARCompanion/app/src/main/res/layout/activity_camera.xml" value="0.22314814814814815" />
         <entry key="..\:/Users/rocko/AndroidStudioProjects/ARCompanion/app/src/main/res/layout/activity_image_display.xml" value="0.2" />
