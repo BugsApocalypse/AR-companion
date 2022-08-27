@@ -2,4 +2,9 @@
     <string name="app_name">AR Companion</string>
     <string name="definition"><u>Definition</u></string>
     <string name="example"><u>Example</u></string>
+    <string name="problem">Whenever we read a physical book, the frequency with which we google words for their definitions is a massive loss of time and is extremely inefficient. It also results in the reader’s attention to waver.</string>
+    <string name="solution">It is pretty easy!!. You just have to take a picture of the book page, and keep tapping on the words you want to find the meaning of. We use Firebase in the background to extract text, and Oxford API to find the meaning of the word.</string>
+    <string name="AR">Okay, this one is a really cool feature we are currently working on! You can plot the AR Model of the word in your environment in real-time. We have a limited number of supported words right now, so the feature won\'t work for all the words you are trying to search for.</string>
+
 </resources>
+
