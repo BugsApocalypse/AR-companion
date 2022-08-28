@@ -1,10 +1,8 @@
-package com.adityagupta.arcompanion
+package com.adityagupta.arcompanion.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import com.adityagupta.arcompanion.databinding.ActivityMeaningBinding
+import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityWikipediaWebViewBinding
 
 class WikipediaWebViewActivity : AppCompatActivity() {

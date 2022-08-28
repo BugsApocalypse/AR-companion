@@ -5,6 +5,13 @@
     <string name="problem">Whenever we read a physical book, the frequency with which we google words for their definitions is a massive loss of time and is extremely inefficient. It also results in the reader’s attention to waver.</string>
     <string name="solution">It is pretty easy!!. You just have to take a picture of the book page, and keep tapping on the words you want to find the meaning of. We use Firebase in the background to extract text, and Oxford API to find the meaning of the word.</string>
     <string name="AR">Okay, this one is a really cool feature we are currently working on! You can plot the AR Model of the word in your environment in real-time. We have a limited number of supported words right now, so the feature won\'t work for all the words you are trying to search for.</string>
+    <string name="behind_the_screen">Interested in what goes behind the screen??</string>
+    <string name="frontend1">This app is written purely in kotlin. We used jetpack libraries such as Retrofit, CameraX, DataBinding, etc. We used MVVM architectural pattern for the separation of the development of the graphical user interface. </string>
+    <string name="frontend2">For the design part, We used Material design 3 components. The font family is apercu. And the app design is highly inspired from HeadSpace Android app </string>
+    <string name="backend1">We are using Firebase ML Kit for text extraction, Oxford API to find the meaning of the word, ARCore to plot the AR models, Wikipedia API </string>
+    <string name="backend2">Other libraries include Coil, OkHttp, Picasso, Guava, etc </string>
+    <string name="catalystuff"><a href="https://www.freepik.com/free-vector/cute-astronaut-holding-flag-moon-cartoon-vector-icon-illustration-science-technology-icon-concept-isolated-premium-vector-flat-cartoon-style_22383468.htm#query=astronaut&amp;position=0&amp;from_view=search">Image by catalyststuff</a> on Freepik</string>
+
 
 </resources>
 

@@ -1,29 +1,17 @@
-package com.adityagupta.arcompanion
+package com.adityagupta.arcompanion.activities
 
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.adityagupta.arcompanion.api.helpers.RetrofitHelper
-import com.adityagupta.arcompanion.api.helpers.WikipediaHelper
-import com.adityagupta.arcompanion.api.interfaces.Api
-import com.adityagupta.arcompanion.api.interfaces.WikipediaAPI
+import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityMeaningBinding
 import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
-import com.adityagupta.data.OxfordWord
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import retrofit2.create
 import java.io.IOException
 
 

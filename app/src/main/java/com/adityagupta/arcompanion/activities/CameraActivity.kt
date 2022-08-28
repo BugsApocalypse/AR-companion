@@ -1,4 +1,4 @@
-package com.adityagupta.arcompanion
+package com.adityagupta.arcompanion.activities
 
 import android.Manifest
 import android.content.Intent
@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -22,9 +21,8 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.adityagupta.arcompanion.CameraActivity.Companion.REQUIRED_PERMISSIONS
+import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityCameraBinding
-import com.adityagupta.arcompanion.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.ExecutorService
@@ -52,7 +50,7 @@ class CameraActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, CameraActivity.REQUIRED_PERMISSIONS, CameraActivity.REQUEST_CODE_PERMISSIONS
+                this, CameraActivity.REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
         }
 
