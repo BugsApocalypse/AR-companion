@@ -1,23 +1,21 @@
-package com.adityagupta.arcompanion
+package com.adityagupta.arcompanion.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Rect
-import android.media.AudioManager
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityImageDisplayBinding
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
-import java.io.IOException
 
 
 class ImageDisplayActivity : AppCompatActivity() {
