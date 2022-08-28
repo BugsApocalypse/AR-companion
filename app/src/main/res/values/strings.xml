@@ -10,6 +10,7 @@
     <string name="frontend2">For the design part, We used Material design 3 components. The font family is apercu. And the app design is highly inspired from HeadSpace Android app </string>
     <string name="backend1">We are using Firebase ML Kit for text extraction, Oxford API to find the meaning of the word, ARCore to plot the AR models, Wikipedia API </string>
     <string name="backend2">Other libraries include Coil, OkHttp, Picasso, Guava, etc </string>
+    <string name="catalystuff"><a href="https://www.freepik.com/free-vector/cute-astronaut-holding-flag-moon-cartoon-vector-icon-illustration-science-technology-icon-concept-isolated-premium-vector-flat-cartoon-style_22383468.htm#query=astronaut&amp;position=0&amp;from_view=search">Image by catalyststuff</a> on Freepik</string>
 
 
 </resources>

@@ -55,7 +55,7 @@
                 android:text="@string/behind_the_screen" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card"
+                android:id="@+id/frontendCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp">
@@ -203,6 +203,33 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+
+                android:gravity="center"
+                android:textColor="#B2B2B2"
+                android:textSize="16sp"
+                app:fontFamily="@font/apercu_pro_regular"
+                android:text="Okay, one more thing, The super cute astronaut images used in the app are made by catalyststuff." />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:textColor="#B2B2B2"
+                android:textSize="16sp"
+                app:fontFamily="@font/apercu_pro_regular"
+                android:text="@string/catalystuff" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
