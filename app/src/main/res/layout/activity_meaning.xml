@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="@color/app_theme_color"
     tools:context=".activities.MeaningActivity">
 
     <LinearLayout
@@ -22,9 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:padding="8dp"
+                android:fontFamily="@font/apercu_pro_regular"
                 android:text="Here's something from wiki:"
-                android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
@@ -61,7 +60,7 @@
                     android:layout_marginStart="17dp"
                     android:layout_marginTop="48dp"
                     android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="@font/apercu_pro_regular"
                     android:textColor="@color/white"
                     android:textFontWeight="700"
                     android:textSize="38dp"
@@ -71,26 +70,13 @@
                     app:layout_constraintTop_toTopOf="@+id/consLayout5" />
 
                 <TextView
-                    android:id="@+id/wordPhonetic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="9dp"
-                    android:fontFamily="@font/open_sans"
-                    android:text="həˈləʊ"
-
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="@+id/wordTitle"
-                    app:layout_constraintStart_toStartOf="@+id/wordTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/wordTitle" />
-
-                <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="17dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="@font/apercu_pro_regular"
                     android:text="@string/definition"
                     android:textColor="@color/white"
                     android:textFontWeight="700"
@@ -109,7 +95,7 @@
                     android:layout_marginStart="14dp"
                     android:layout_marginTop="8dp"
 
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="@font/apercu_pro_regular"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="used as a greeting or to begin a phone conversation."
@@ -124,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="@font/apercu_pro_regular"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
@@ -141,7 +127,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="21dp"
-                    android:fontFamily="@font/open_sans"
+                    android:fontFamily="@font/apercu_pro_regular"
                     android:text="used as a greeting or to begin a phone conversation."
 
                     android:textColor="@color/white"
@@ -153,14 +139,13 @@
                     android:id="@+id/speaker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
 
-                    app:layout_constraintEnd_toEndOf="@+id/wordPhonetic"
-                    app:layout_constraintStart_toStartOf="@+id/wordPhonetic"
-                    app:layout_constraintTop_toBottomOf="@+id/wordPhonetic"
-                    app:srcCompat="@drawable/ic_baseline_volume_up_24" />
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="@+id/wordTitle"
+                    app:layout_constraintStart_toStartOf="@+id/wordTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/wordTitle"
+                    app:srcCompat="@drawable/ic_baseline_volume_up_24"
+                    app:tint="#FFFFFF" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -217,6 +202,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="hello"
+                                android:fontFamily="@font/apercu_pro_regular"
+
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
                             <TextView
@@ -224,8 +211,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
+                                android:fontFamily="@font/apercu_pro_regular"
+
                                 android:text="An application programming interface (API) is a connection between computers or between computer programs. It is a type of software interface, offering a service to other pieces of software.[1]"
-                                android:textAppearance="?attr/textAppearanceBody2"
                                 android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
