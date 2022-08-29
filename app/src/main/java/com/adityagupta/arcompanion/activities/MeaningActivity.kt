@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityMeaningBinding
 import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
+import com.squareup.picasso.Picasso
 import java.io.IOException
 
 
@@ -59,9 +60,9 @@ class MeaningActivity : AppCompatActivity() {
 
             viewBinding.wikiTitle.text = it.title
             viewBinding.wikiDescription.text =it.description
-//            Picasso.with(applicationContext)
-//                .load("https:" + (it))
-//                .into(viewBinding.wikiImageView)
+            Picasso.with(applicationContext)
+                .load("https:" + (it.url))
+                .into(viewBinding.wikiImageView)
 
         })
     }
