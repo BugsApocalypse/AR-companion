@@ -22,18 +22,28 @@ class TechStackActivity : AppCompatActivity() {
         viewBinding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.tech -> {
-                    startActivity(Intent(applicationContext, TechStackActivity::class.java))
+                    var intent = Intent(applicationContext, TechStackActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
                     true
                 }
                 R.id.home -> {
-                    Log.i("something", "hello")
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    var intent = Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
                     true
 
                 }
+                R.id.list -> {
+                    var intent = Intent(applicationContext, ARSupportedActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
+                    true
+                }
                 else -> {
-                    Log.i("something", "hello else")
-
                     false
                 }
 
