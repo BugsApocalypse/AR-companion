@@ -10,10 +10,10 @@ import com.adityagupta.arcompanion.R
 
 
 class CustomAdapter(private val flowerList: Array<String>) :
-    RecyclerView.Adapter<CustomAdapter.FlowerViewHolder>() {
+    RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
 
     // Describes an item view and its place within the RecyclerView
-    class FlowerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val flowerTextView: TextView = itemView.findViewById(R.id.ArRecyclerViewItem)
 
         fun bind(word: String) {
@@ -22,11 +22,11 @@ class CustomAdapter(private val flowerList: Array<String>) :
     }
 
     // Returns a new ViewHolder
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlowerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.custom_recycler_item, parent, false)
 
-        return FlowerViewHolder(view)
+        return MyViewHolder(view)
     }
 
     // Returns size of data list
@@ -35,7 +35,7 @@ class CustomAdapter(private val flowerList: Array<String>) :
     }
 
     // Displays data at a certain position
-    override fun onBindViewHolder(holder: FlowerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(flowerList[position])
     }
 }

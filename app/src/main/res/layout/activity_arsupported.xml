@@ -17,26 +17,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView3"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="250dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_margin="16dp"-->
-<!--            android:padding="16dp"-->
-<!--            app:srcCompat="@drawable/astronaut_to_mars" />-->
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            app:srcCompat="@drawable/astronaut_to_mars" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView16"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="16dp"-->
-<!--            android:fontFamily="@font/apercu_pro_bold"-->
-<!--            android:gravity="center"-->
-<!--            android:padding="8dp"-->
-<!--            android:text="Currently supported AR Models"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textSize="24sp" />-->
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/apercu_pro_bold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Currently supported AR Models"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ARRecyclerView"
