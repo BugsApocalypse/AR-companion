@@ -37,19 +37,19 @@ class MainActivity : AppCompatActivity() {
         viewBinding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.tech -> {
-                    Log.i("something", "hello")
                     startActivity(Intent(applicationContext, TechStackActivity::class.java))
                     true
                 }
                 R.id.home -> {
-                    Log.i("something", "hello")
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                     true
 
                 }
+                R.id.list -> {
+                    startActivity(Intent(applicationContext, ARSupportedActivity::class.java))
+                    true
+                }
                 else -> {
-                    Log.i("something", "hello else")
-
                     false
                 }
 
