@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,229 +7,247 @@
     android:layout_height="match_parent"
     tools:context=".activities.AboutActivity">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_margin="32dp"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/astronaut_dab" />
-
-        <TextView
-            android:id="@+id/aboutUs"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:fontFamily="@font/apercu_pro_bold"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:padding="8dp"
-            android:text="About Us"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-             />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView77"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/aboutUs1"
-            android:textColor="#B2B2B2"
-            android:textSize="16sp"
-            app:fontFamily="@font/apercu_pro_regular"
-             />
 
-        <TextView
-            android:id="@+id/ourTeam"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_margin="32dp"
+                app:srcCompat="@drawable/astronaut_dab" />
 
-            android:fontFamily="@font/apercu_pro_bold"
-            android:gravity="center"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:text="Our Team"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/aditya"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:gravity="center"
-            android:layout_margin="16dp">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/aboutUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:fontFamily="@font/apercu_pro_bold"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:padding="8dp"
+                android:text="About Us"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_margin="8dp"
-
-                    android:src="@drawable/aditya" />
-
-                <TextView
-                    android:id="@+id/textView19"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:text="@string/aditya"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?android:attr/textColorSecondary" />
-
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/sohail"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textView77"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_gravity="center"
+                android:text="@string/aboutUs1"
+                android:textColor="#B2B2B2"
+                android:textSize="16sp"
+                app:fontFamily="@font/apercu_pro_regular" />
 
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_margin="8dp"
-
-                    android:src="@drawable/sohail" />
-
-                <TextView
-                    android:id="@+id/textView195"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:text="@string/sohail"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?android:attr/textColorSecondary" />
-
-
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/tuba"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="16dp">
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/ourTeam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:layout_margin="8dp"
+                android:fontFamily="@font/apercu_pro_bold"
                 android:gravity="center"
-                android:layout_gravity="center"
+                android:padding="8dp"
+                android:text="Our Team"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
-                android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/aditya"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp"
+                android:gravity="center">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_margin="8dp"
-
-                    android:src="@drawable/tuba" />
-
-                <TextView
-                    android:id="@+id/textView193"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:text="@string/tuba"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_margin="8dp"
+
+                        android:src="@drawable/aditya" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@string/aditya"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
 
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/rahul"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="16dp">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/sohail"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp">
 
-            <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_margin="8dp"
+
+                        android:src="@drawable/sohail" />
+
+                    <TextView
+                        android:id="@+id/textView195"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@string/sohail"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tuba"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_margin="8dp"
+
+                        android:src="@drawable/tuba" />
+
+                    <TextView
+                        android:id="@+id/textView193"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@string/tuba"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rahul"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="75dp"
+                        android:layout_height="75dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/rahul" />
+
+                    <TextView
+                        android:id="@+id/r99"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:padding="8dp"
+                        android:text="@string/rahul"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_margin="32dp"
+                app:srcCompat="@drawable/astronaut_coffee" />
+
+            <TextView
+                android:id="@+id/textView145"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/apercu_pro_bold"
                 android:gravity="center"
-                android:layout_gravity="center"
+                android:padding="8dp"
+                android:text="Buy us a cup of coffee :)"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
-                android:orientation="horizontal">
+            <Button
+                android:id="@+id/buyUsCoffeeButton"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:backgroundTint="#FF7E1D"
+                android:text="Yayyy!"
+                android:textColor="@color/white"
+                android:textFontWeight="700"
+                app:icon="@drawable/ic_baseline_coffee_24"
+                app:iconTint="@color/white" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/rahul" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-                <TextView
-                    android:id="@+id/r99"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:padding="8dp"
-                    android:text="@string/rahul"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?android:attr/textColorSecondary" />
-
-
-            </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_margin="32dp"
-            app:srcCompat="@drawable/astronaut_coffee" />
-
-        <TextView
-            android:id="@+id/textView145"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/apercu_pro_bold"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:text="Buy us a cup of coffee :)" />
-
-        <Button
-            android:id="@+id/buyUsCoffeeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#FF7E1D"
-            android:textColor="@color/white"
-            android:textFontWeight="700"
-            android:layout_margin="16dp"
-            style="@style/Widget.Material3.Button.Icon"
-            app:icon="@drawable/ic_baseline_coffee_24"
-            app:iconTint="@color/white"
-            android:text="Yayyy!" />
-
-    </LinearLayout>
-</ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/app_theme_color"
+        app:itemIconTint="@color/bottom_tab_item_foreground"
+        app:itemTextColor="@color/bottom_tab_item_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+</androidx.constraintlayout.widget.ConstraintLayout>

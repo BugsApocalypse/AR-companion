@@ -43,6 +43,13 @@ class TechStackActivity : AppCompatActivity() {
                     this.finish()
                     true
                 }
+                R.id.about -> {
+                    var intent = Intent(applicationContext, AboutActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
+                    true
+                }
                 else -> {
                     false
                 }
