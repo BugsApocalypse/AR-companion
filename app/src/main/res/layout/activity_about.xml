@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/app_theme_color"
+    android:layout_height="match_parent"
+    tools:context=".activities.AboutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_margin="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            app:srcCompat="@drawable/astronaut_dab" />
+
+        <TextView
+            android:id="@+id/aboutUs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/apercu_pro_bold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="About Us"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+             />
+
+        <TextView
+            android:id="@+id/textView77"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/aboutUs1"
+            android:textColor="#B2B2B2"
+            android:textSize="16sp"
+            app:fontFamily="@font/apercu_pro_regular"
+             />
+
+        <TextView
+            android:id="@+id/ourTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="@font/apercu_pro_bold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Our Team"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/aditya"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                >
+                
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
