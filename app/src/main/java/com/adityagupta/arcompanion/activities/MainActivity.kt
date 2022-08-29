@@ -2,16 +2,11 @@ package com.adityagupta.arcompanion.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
 import java.util.*
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,19 +32,28 @@ class MainActivity : AppCompatActivity() {
         viewBinding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.tech -> {
-                    Log.i("something", "hello")
-                    startActivity(Intent(applicationContext, TechStackActivity::class.java))
+                    var intent = Intent(applicationContext, TechStackActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
                     true
                 }
                 R.id.home -> {
-                    Log.i("something", "hello")
-                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                    var intent = Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
                     true
 
                 }
+                R.id.list -> {
+                    var intent = Intent(applicationContext, ARSupportedActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    this.finish()
+                    true
+                }
                 else -> {
-                    Log.i("something", "hello else")
-
                     false
                 }
 
