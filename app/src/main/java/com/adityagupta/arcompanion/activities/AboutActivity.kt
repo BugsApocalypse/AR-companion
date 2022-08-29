@@ -1,39 +1,58 @@
 package com.adityagupta.arcompanion.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.adityagupta.arcompanion.R
-import com.adityagupta.arcompanion.databinding.ActivityMainBinding
-import java.util.*
+import com.adityagupta.arcompanion.databinding.ActivityAboutBinding
+import com.adityagupta.arcompanion.databinding.ActivityArsupportedBinding
 
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var viewBinding: ActivityMainBinding
-
+class AboutActivity : AppCompatActivity() {
+    lateinit var viewBinding: ActivityAboutBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+
+        viewBinding = ActivityAboutBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        viewBinding.bottomNavigation.selectedItemId = R.id.about
 
+        viewBinding.buyUsCoffeeButton.setOnClickListener {
+            val uri: Uri = Uri.parse("https://www.buymeacoffee.com/arcompanion") // missing 'http://' will cause crashed
 
-        viewBinding.button2.setOnClickListener {
-            val intent = Intent(this, CameraActivity::class.java).apply {
-            }
-            startActivity(intent)
-        }
-        //TODO Request camera permissions
-
-        viewBinding.seeTheListButton.setOnClickListener {
-            val intent = Intent(this, ARSupportedActivity::class.java).apply {
-            }
+            val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
 
-        viewBinding.bottomNavigation.selectedItemId = R.id.home
+        viewBinding.aditya.setOnClickListener {
+            val uri: Uri = Uri.parse("https://www.linkedin.com/in/adityagupta985/") // missing 'http://' will cause crashed
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
+        viewBinding.rahul.setOnClickListener {
+            val uri: Uri = Uri.parse("https://www.linkedin.com/in/rahul-raj-3b6b45113/") // missing 'http://' will cause crashed
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
+        viewBinding.sohail.setOnClickListener {
+            val uri: Uri = Uri.parse("https://www.linkedin.com/in/ahmadsohail404/") // missing 'http://' will cause crashed
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
+
+        viewBinding.tuba.setOnClickListener {
+            val uri: Uri = Uri.parse("https://www.linkedin.com/in/tuba-ali-b4062122a/") // missing 'http://' will cause crashed
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
 
         viewBinding.bottomNavigation.setOnItemSelectedListener { item ->
             when(item.itemId) {
@@ -75,5 +94,4 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
 }

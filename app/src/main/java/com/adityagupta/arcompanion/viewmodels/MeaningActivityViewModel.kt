@@ -47,6 +47,7 @@ class MeaningActivityViewModel(
             val wikidata: WikiData = WikiData(
                 wikiResult.body()!!.pages[0].title,
                 wikiResult.body()!!.pages[0].excerpt,
+                wikiResult.body()!!.pages[0].thumbnail?.url?: "https://i.ibb.co/YhRN0Q3/toppng-com-erreur-404-473x341.png"
             )
 
             _wikiData.postValue(wikidata)

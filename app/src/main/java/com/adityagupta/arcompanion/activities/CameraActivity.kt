@@ -34,8 +34,6 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
 
-    private var videoCapture: VideoCapture<Recorder>? = null
-    private var recording: Recording? = null
 
     private lateinit var cameraExecutor: ExecutorService
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +50,7 @@ class CameraActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, CameraActivity.REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
             )
+            startCamera()
         }
 
         // Set up the listeners for take photo and video capture buttons
@@ -74,9 +73,6 @@ class CameraActivity : AppCompatActivity() {
                 put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
         }
-
-
-        Log.i("nnname", "/storage/emulated/0" + "/Pictures/CameraX-Image/" + name)
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions
