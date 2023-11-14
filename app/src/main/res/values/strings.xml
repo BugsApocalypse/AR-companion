@@ -16,6 +16,17 @@
     <string name="tuba">I\'m Tuba, a final year ISE student @NIE. I\'m a very fun loving person. I love travelling and drawing the most.</string>
     <string name="sohail">I am Sohail, currently a sophomore @NIE. I love Web Development, Open-Source Contribution and learning new technologies</string>
     <string name="rahul">I\'m Rahul Raj, a final year ISE student @NIE. Im a full stack web developer and ML enthusiast. </string>
+    <string name="title_activity_pdf_viewer">PdfViewerActivity</string>
+    <string name="title_activity_library">LibraryActivity</string>
+    <string name="library_tab_text_1">Your Books</string>
+    <string name="library_tab_text_2">Shelves</string>
+    <string name="library_tab_text_3">Series</string>
+    <string name="_404_not_found_image">404 not found image</string>
+    <string name="permission_declined_alert_title">Oops!</string>
+    <string name="permission_declined_alert_description">Wee need accesss to your local files in order to fetch the books for you ;-;</string>
+    <string name="keyword_home_screen">Home Screen</string>
+    <string name="keyword_give_permission">Give Permission</string>
+
 
 </resources>
 

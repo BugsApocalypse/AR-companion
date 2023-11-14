@@ -5,8 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class DocumentMeta (
-    @PrimaryKey val docId: Int,
-    @ColumnInfo(name = "docTitle") val docTitle: String,
+data class Document(
+    @PrimaryKey(autoGenerate = true) val docId: Long = 0,
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "author") val author: String = "",
+    @ColumnInfo(name = "creationDate") val creationDate: String = "",
+    @ColumnInfo(name = "creator") val creator: String = "",
+    @ColumnInfo(name = "producer") val producer: String = "",
+    @ColumnInfo(name = "subject") val subject: String = "",
     @ColumnInfo(name = "docLocalUri") val docLocalUri: String
 )
