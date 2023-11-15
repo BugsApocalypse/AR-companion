@@ -7,12 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".activities.ui.main.PlaceholderFragment">
 
-    <ImageView
-        android:id="@+id/pdfContentImageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/library_documents_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/lfNothingFoundConstraintLayout"
-        app:layout_constraintEnd_toStartOf="@+id/lfNothingFoundConstraintLayout"
+        android:orientation="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

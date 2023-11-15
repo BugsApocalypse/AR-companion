@@ -1,25 +1,22 @@
 package com.adityagupta.arcompanion.activities.ui.main
 
+import DocumentsAdapter
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 
-import androidx.lifecycle.ViewModelProvider
 import com.adityagupta.arcompanion.ARCompanionApplication
 import com.adityagupta.arcompanion.Utils
-import com.adityagupta.arcompanion.activities.EReaderActivity
-import com.adityagupta.arcompanion.activities.TechStackActivity
 import com.adityagupta.arcompanion.databinding.FragmentLibraryBinding
 import com.adityagupta.data.local.entities.Document
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
@@ -49,6 +46,8 @@ class PlaceholderFragment : Fragment() {
         super.onCreate(savedInstanceState)
         // Initialize the ViewModel using ViewModelProvider
         pageViewModel.setIndex(requireArguments().getInt(ARG_SECTION_NUMBER, 1))
+
+
     }
 
     override fun onCreateView(
@@ -56,6 +55,12 @@ class PlaceholderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLibraryBinding.inflate(inflater, container, false)
+
+        pageViewModel.allDocuments.observe(viewLifecycleOwner, Observer { documents ->
+            binding.libraryDocumentsRv.adapter = DocumentsAdapter(documents)
+        })
+
+
 
         // Set a click listener for the add button to pick PDF
         binding.lfAddBooksButton.setOnClickListener {
@@ -71,7 +76,6 @@ class PlaceholderFragment : Fragment() {
     private val openFilePicker =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                val intent = Intent(requireContext(), EReaderActivity::class.java)
                 val pdfInfo = Utils().extractPdfInfo(requireContext(), uri)
 
                 val pdfTitle = pdfInfo.title ?: Utils().getFileNameFromUri(requireContext(), uri)
@@ -80,11 +84,8 @@ class PlaceholderFragment : Fragment() {
 
                 pageViewModel.insertDocument(document)
 
-                Log.i("pdf_stuff", pdfTitle)
-                intent.putExtra("pdfUri", uri.toString())
 
-                startActivity(intent)
-                displayPDF(requireContext(), uri)
+
             }
         }
 
@@ -123,7 +124,7 @@ class PlaceholderFragment : Fragment() {
         currentPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
 
         // Display the rendered bitmap in the designated image view
-        binding.pdfContentImageView.setImageBitmap(bitmap)
+//        binding.pdfContentImageView.setImageBitmap(bitmap)
 
         // Close the current page when done
         currentPage.close()
@@ -137,7 +138,7 @@ class PlaceholderFragment : Fragment() {
         return Document(
             title = pdfTitle,
             author = pdfInfo.author ?: "",
-            creationDate = pdfInfo.creationDate.toString() ?: "",
+            creationDate = pdfInfo.creationDate.time.toString(),
             creator = pdfInfo.creator ?: "",
             producer = pdfInfo.producer ?: "",
             subject = pdfInfo.subject ?: "",
