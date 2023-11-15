@@ -57,6 +57,11 @@ class PlaceholderFragment : Fragment() {
         _binding = FragmentLibraryBinding.inflate(inflater, container, false)
 
         pageViewModel.allDocuments.observe(viewLifecycleOwner, Observer { documents ->
+            if(documents.isEmpty()){
+                binding.lfNothingFoundConstraintLayout.visibility = View.VISIBLE
+            }else {
+                binding.lfNothingFoundConstraintLayout.visibility = View.GONE
+            }
             binding.libraryDocumentsRv.adapter = DocumentsAdapter(documents)
         })
 
