@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.adityagupta.arcompanion">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera.any" />
 
@@ -10,10 +9,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+        android:maxSdkVersion="33" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".ARCompanionApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -25,6 +25,19 @@
         android:theme="@style/Theme.ARCompanion"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.EReaderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LibraryActivity"
+            android:exported="false"
+            android:label="@string/title_activity_library"
+            android:theme="@style/Theme.ARCompanion.NoActionBar" />
+        <activity
+            android:name=".activities.PdfViewerActivity"
+            android:exported="false"
+            android:label="@string/title_activity_pdf_viewer"
+            android:theme="@style/Theme.ARCompanion" />
         <activity
             android:name=".activities.AboutActivity"
             android:exported="false" />
