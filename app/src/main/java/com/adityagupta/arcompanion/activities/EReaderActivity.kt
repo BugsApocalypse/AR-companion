@@ -1,64 +1,132 @@
 package com.adityagupta.arcompanion.activities
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.adityagupta.arcompanion.databinding.ActivityEreaderBinding
-import com.adityagupta.data.local.entities.Document
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
+import com.github.barteksc.pdfviewer.listener.OnPageScrollListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
-
 class EReaderActivity : AppCompatActivity() {
-    private lateinit var eReaderBinding: ActivityEreaderBinding
 
+    private lateinit var eReaderBinding: ActivityEreaderBinding
+    private var pdfUri: Uri? = null
+    private var delayMillis = 3000L // 3 seconds
+    private var hideViewsJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // Initialize the view binding
         eReaderBinding = ActivityEreaderBinding.inflate(layoutInflater)
         setContentView(eReaderBinding.root)
 
-        val sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val filePath = sharedPreferences.getString(FILE_PATH_KEY, null)
+        // Retrieve the PDF URI from the intent
+        pdfUri = intent.getParcelableExtra("selectedDocumentUri")
 
-        // Check if the file path is not null and then use it
-        filePath?.let { loadPdfFromUri(File(it)) }
+        // Check if pdfUri is not null before proceeding
+        pdfUri?.let {
+            // Load and display the PDF
+            loadPdfFromUri(it)
+        } ?: run {
+            // Handle the case where pdfUri is null (e.g., log an error, show a message)
+            Log.e(TAG, "Error: pdfUri is null")
+            // You might want to finish the activity or take other appropriate action
+            finish()
+        }
 
 
     }
 
+    private fun loadPdfFromUri(pdfUri: Uri) {
+        // Retrieve the file path from SharedPreferences
+        val filePath = getFilePathFromSharedPreferences(pdfUri.toString())
 
-    // Load PDF from the given URI
-    private fun loadPdfFromUri(file: File) {
-        // Parse the URI
+        // Check if the file path is not null and then load the PDF
+        filePath?.let { displayPdf(File(it)) }
+    }
+
+    private fun displayPdf(file: File) {
         // Load PDF into the PDFView
         eReaderBinding.pdfView.fromFile(file)
             .swipeHorizontal(true)
             .enableSwipe(true)
-            .enableDoubletap(true)
             .autoSpacing(true)
+            .pageSnap(true)
+            .pageFling(true)
+            .onLoad(loadCompleteListener)
+            .onPageChange(pageChangeListener)
+            .onPageScroll(pageScrollListener)
             .load()
-        // Log success message
+
+        // Log success message or handle other actions as needed
     }
 
+    private fun getFilePathFromSharedPreferences(pdfUri: String): String? {
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getString(pdfUri, null)
+    }
 
-    // Handle the PDF URI from the intent
+    private val pageChangeListener =
+        OnPageChangeListener { page, pageCount -> // Update the page number in the TextView
+            val currentPageNumber = page + 1 // Page numbers are zero-based
+            val pageText = "Page $currentPageNumber / $pageCount"
+            eReaderBinding.pageNumberTextView.text = pageText
+            eReaderBinding.pageNumberSlider.value = (page + 1).toFloat()
+            showViews()
+            hideViewsJob?.cancel()
+            hideViewsJob = CoroutineScope(Dispatchers.Main).launch {
+                delay(delayMillis)
+                hideViews()
+            }
 
+        }
+
+    private val pageScrollListener =
+        OnPageScrollListener { _, _ -> // Update the page number in the TextView
+
+
+        }
+
+    private val loadCompleteListener = OnLoadCompleteListener {
+        // Set the maximum value of the scrollbar when the PDF is loaded
+        eReaderBinding.pageNumberSlider.stepSize = 1F
+        eReaderBinding.pageNumberSlider.valueFrom = 0F
+        eReaderBinding.pageNumberSlider.valueTo = it.toFloat()
+    }
+
+    private fun showViews() {
+        eReaderBinding.pageNumberTextView.visibility = View.VISIBLE
+        eReaderBinding.pageNumberSlider.visibility = View.VISIBLE
+    }
+
+    private fun hideViews() {
+        eReaderBinding.pageNumberTextView.visibility = View.INVISIBLE
+        eReaderBinding.pageNumberSlider.visibility = View.INVISIBLE
+    }
+
+    override fun onDestroy() {
+        // Cancel any ongoing coroutine job
+        hideViewsJob?.cancel()
+        super.onDestroy()
+    }
 
     companion object {
         private const val PREFS_NAME = "MyPrefsFile"
-        private const val FILE_PATH_KEY = "filePath"
+        private const val TAG = "EReaderActivity"
     }
-
-
 }
-
-

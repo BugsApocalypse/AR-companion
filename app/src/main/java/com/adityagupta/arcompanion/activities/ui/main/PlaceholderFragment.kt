@@ -95,24 +95,6 @@ class PlaceholderFragment : Fragment() {
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                    // Permissions granted, proceed with file copying logic
-                } else {
-                    // Permissions denied, handle accordingly (e.g., show a message or exit)
-                }
-            }
-        }
-    }
-
-
-
     private val openFilePicker =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
@@ -125,25 +107,25 @@ class PlaceholderFragment : Fragment() {
                 pageViewModel.insertDocument(document)
                 if (hasPermissions()) {
                     // Permissions are already granted, proceed with file copying logic
-                    copySelectedPdf(uri)
+                    copySelectedPdf(uri, pdfTitle)
                 } else {
                     // Request permissions
                     requestPermissions()
-                    copySelectedPdf(uri)
+                    copySelectedPdf(uri, pdfTitle)
                 }
 
 
             }
         }
 
-    private fun copySelectedPdf(uri: Uri) {
+    private fun copySelectedPdf(uri: Uri, pdfTitle: String) {
         val selectedPdfUri: Uri = uri // Obtain the URI of the selected PDF
 
         // Get an input stream from the content resolver
         val inputStream = requireContext().contentResolver.openInputStream(selectedPdfUri)
 
         // Create a destination file in your app's data directory
-        val destinationFile = File(requireContext().filesDir, "copied_file.pdf")
+        val destinationFile = File(requireContext().filesDir, "$pdfTitle.pdf")
 
         // Copy the file
         inputStream?.use { input ->
@@ -153,7 +135,7 @@ class PlaceholderFragment : Fragment() {
         }
 
         // Save the file path in SharedPreferences
-        sharedPreferences.edit().putString(FILE_PATH_KEY, destinationFile.absolutePath).apply()
+        sharedPreferences.edit().putString(uri.toString(), destinationFile.absolutePath).apply()
     }
 
 
