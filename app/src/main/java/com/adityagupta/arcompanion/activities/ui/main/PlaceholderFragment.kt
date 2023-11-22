@@ -1,7 +1,10 @@
 package com.adityagupta.arcompanion.activities.ui.main
 
 import DocumentsAdapter
+import android.Manifest
 import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
@@ -11,6 +14,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -25,6 +30,11 @@ import java.io.FileOutputStream
 
 class PlaceholderFragment : Fragment() {
 
+
+
+    private lateinit var sharedPreferences: SharedPreferences
+
+
     // ViewModel instance
     // View binding instance
     private var _binding: FragmentLibraryBinding? = null
@@ -37,17 +47,12 @@ class PlaceholderFragment : Fragment() {
 
     }
 
-    // PDF rendering variables
-    private lateinit var pdfRenderer: PdfRenderer
-    private lateinit var pdfFile: File
-    private lateinit var currentPage: PdfRenderer.Page
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Initialize the ViewModel using ViewModelProvider
         pageViewModel.setIndex(requireArguments().getInt(ARG_SECTION_NUMBER, 1))
-
-
     }
 
     override fun onCreateView(
@@ -62,9 +67,12 @@ class PlaceholderFragment : Fragment() {
             }else {
                 binding.lfNothingFoundConstraintLayout.visibility = View.GONE
             }
-            binding.libraryDocumentsRv.adapter = DocumentsAdapter(documents)
+            binding.libraryDocumentsRv.adapter = DocumentsAdapter(requireContext(), documents)
         })
 
+        binding.adddDocumentFloatingActionButton.setOnClickListener {
+            openFilePicker.launch("application/pdf")
+        }
 
 
         // Set a click listener for the add button to pick PDF
@@ -78,6 +86,33 @@ class PlaceholderFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+        // Check and request permissions
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    // Permissions granted, proceed with file copying logic
+                } else {
+                    // Permissions denied, handle accordingly (e.g., show a message or exit)
+                }
+            }
+        }
+    }
+
+
+
     private val openFilePicker =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
@@ -88,52 +123,40 @@ class PlaceholderFragment : Fragment() {
                 val document = createDocumentFromPdfInfo(uri.toString(), pdfTitle, pdfInfo)
 
                 pageViewModel.insertDocument(document)
-
+                if (hasPermissions()) {
+                    // Permissions are already granted, proceed with file copying logic
+                    copySelectedPdf(uri)
+                } else {
+                    // Request permissions
+                    requestPermissions()
+                    copySelectedPdf(uri)
+                }
 
 
             }
         }
 
-    // Function to display the selected PDF
-    private fun displayPDF(context: Context, uri: Uri) {
+    private fun copySelectedPdf(uri: Uri) {
+        val selectedPdfUri: Uri = uri // Obtain the URI of the selected PDF
 
-        // Open an input stream from the selected URI
-        context.contentResolver.openInputStream(uri)?.use { inputStream ->
-            // Create a temporary file to store the PDF
-            pdfFile = File(context.cacheDir, "temp.pdf")
-            pdfFile.createNewFile()
-            // Open an output stream for the temporary file
-            FileOutputStream(pdfFile).use { outputStream ->
-                // Copy the PDF content from the input stream to the temporary file
-                inputStream.copyTo(outputStream)
+        // Get an input stream from the content resolver
+        val inputStream = requireContext().contentResolver.openInputStream(selectedPdfUri)
+
+        // Create a destination file in your app's data directory
+        val destinationFile = File(requireContext().filesDir, "copied_file.pdf")
+
+        // Copy the file
+        inputStream?.use { input ->
+            FileOutputStream(destinationFile).use { output ->
+                input.copyTo(output)
             }
-            // Open the PdfRenderer with the temporary PDF file
-            pdfRenderer = PdfRenderer(ParcelFileDescriptor.open(pdfFile, ParcelFileDescriptor.MODE_READ_ONLY))
-            // Display the first page of the PDF
-            displayPage(0)
-        }
-    }
-
-    // Function to display a specific page of the PDF
-    private fun displayPage(index: Int) {
-        // Close the current page if it exists
-        if (::currentPage.isInitialized) {
-            currentPage.close()
         }
 
-        // Get the specific page from the PdfRenderer
-        currentPage = pdfRenderer.openPage(index)
-
-        // Render the page as a bitmap
-        val bitmap = Bitmap.createBitmap(currentPage.width, currentPage.height, Bitmap.Config.ARGB_8888)
-        currentPage.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-
-        // Display the rendered bitmap in the designated image view
-//        binding.pdfContentImageView.setImageBitmap(bitmap)
-
-        // Close the current page when done
-        currentPage.close()
+        // Save the file path in SharedPreferences
+        sharedPreferences.edit().putString(FILE_PATH_KEY, destinationFile.absolutePath).apply()
     }
+
+
     // Function to create a Document object from PdfInfo and other details
     private fun createDocumentFromPdfInfo(
         docLocalUri: String,
@@ -152,6 +175,30 @@ class PlaceholderFragment : Fragment() {
 
     }
 
+    private fun hasPermissions(): Boolean {
+        val readPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        val writePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+        return readPermission && writePermission
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            PERMISSION_REQUEST_CODE
+        )
+    }
 
 
     // Clean up the view binding instance to avoid memory leaks
@@ -163,7 +210,9 @@ class PlaceholderFragment : Fragment() {
     companion object {
         // Argument key for section number
         private const val ARG_SECTION_NUMBER = "section_number"
-
+        private const val PREFS_NAME = "MyPrefsFile"
+        private const val FILE_PATH_KEY = "filePath"
+        private const val PERMISSION_REQUEST_CODE = 100
         // Create a new instance of this fragment with the provided section number
         @JvmStatic
         fun newInstance(sectionNumber: Int): PlaceholderFragment {

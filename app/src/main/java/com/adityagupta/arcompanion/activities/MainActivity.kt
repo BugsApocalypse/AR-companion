@@ -32,10 +32,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ARSupportedActivity::class.java))
         }
 
-        // Handle button click for PdfViewerActivity
-        viewBinding.maBooksFloatingActionButton.setOnClickListener {
-            startActivity(Intent(this, PdfViewerActivity::class.java))
-        }
+
     }
 
     // Set up bottom navigation
