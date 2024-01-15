@@ -9,6 +9,7 @@ import com.adityagupta.arcompanion.activities.EReaderActivity
 import com.adityagupta.arcompanion.activities.PdfViewerActivity
 import com.adityagupta.arcompanion.databinding.DocumentListItemBinding
 import com.adityagupta.data.local.entities.Document
+import com.folioreader.FolioReader
 
 class DocumentsAdapter(
     private val context: Context,
@@ -35,6 +36,8 @@ class DocumentsAdapter(
                 onItemClickListener?.onItemClick(document)
                 val intent = Intent(context, EReaderActivity::class.java );
                 intent.putExtra("selectedDocumentUri", Uri.parse(document.docLocalUri))
+                val folioReader = FolioReader.get()
+                folioReader.openBook(document.docLocalUri);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 Log.i("pdfDebug", Uri.parse(document.docLocalUri).toString())
                 context.startActivity(intent)

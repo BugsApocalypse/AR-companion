@@ -71,7 +71,7 @@ class PlaceholderFragment : Fragment() {
         })
 
         binding.adddDocumentFloatingActionButton.setOnClickListener {
-            openFilePicker.launch("application/pdf")
+            openFilePicker.launch("application/epub+zip")
         }
 
 
@@ -80,7 +80,7 @@ class PlaceholderFragment : Fragment() {
             // Hide the "nothing found" layout
             binding.lfNothingFoundConstraintLayout.visibility = View.GONE
             // Launch the file picker for PDFs
-            openFilePicker.launch("application/pdf")
+            openFilePicker.launch("application/epub+zip")
         }
 
         return binding.root

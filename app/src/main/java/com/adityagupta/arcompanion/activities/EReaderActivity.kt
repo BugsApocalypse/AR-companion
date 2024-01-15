@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.adityagupta.arcompanion.databinding.ActivityEreaderBinding
@@ -19,6 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+
 
 class EReaderActivity : AppCompatActivity() {
 
@@ -60,10 +59,15 @@ class EReaderActivity : AppCompatActivity() {
     }
 
     private fun displayPdf(file: File) {
+
+
+
         // Load PDF into the PDFView
         eReaderBinding.pdfView.fromFile(file)
             .swipeHorizontal(true)
             .enableSwipe(true)
+            .enableAnnotationRendering(true)
+            .enableAntialiasing(true)
             .autoSpacing(true)
             .pageSnap(true)
             .pageFling(true)
