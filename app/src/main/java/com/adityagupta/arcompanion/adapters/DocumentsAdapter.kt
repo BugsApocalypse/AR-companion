@@ -36,8 +36,6 @@ class DocumentsAdapter(
                 onItemClickListener?.onItemClick(document)
                 val intent = Intent(context, EReaderActivity::class.java );
                 intent.putExtra("selectedDocumentUri", Uri.parse(document.docLocalUri))
-                val folioReader = FolioReader.get()
-                folioReader.openBook(document.docLocalUri);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 Log.i("pdfDebug", Uri.parse(document.docLocalUri).toString())
                 context.startActivity(intent)

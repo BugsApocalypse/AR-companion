@@ -12,6 +12,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.adityagupta.arcompanion.R
+import com.adityagupta.arcompanion.Utils
 import com.adityagupta.arcompanion.databinding.ActivityImageDisplayBinding
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
@@ -152,8 +153,7 @@ class ImageDisplayActivity : AppCompatActivity() {
                     val elementText = element.text
                     val elementCornerPoints = element.cornerPoints
                     val elementFrame = element.boundingBox
-
-                    removeSpecialCharacter(elementText)?.let { words.add(it) }
+                    Utils().removeSpecialCharacter(elementText).let { words.add(it) }
                     if (elementFrame != null) {
                         coords.add(elementFrame)
                     }
@@ -182,38 +182,6 @@ class ImageDisplayActivity : AppCompatActivity() {
             matrix,
             true
         );
-    }
-
-    fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
-
-    fun removeSpecialCharacter(s: String): String? {
-        var s = s
-        var i = 0
-        while (i < s.length) {
-
-
-            // Finding the character whose
-            // ASCII value fall under this
-            // range
-            if (s[i] < 'A' || s[i] > 'Z' &&
-                s[i] < 'a' || s[i] > 'z'
-            ) {
-
-                // erase function to erase
-                // the character
-                s = s.substring(0, i) + s.substring(i + 1)
-                i--
-            }
-            i++
-        }
-        return s
     }
 
 

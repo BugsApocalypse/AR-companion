@@ -1,11 +1,13 @@
 package com.adityagupta.arcompanion
 
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.util.Log
 import androidx.core.net.toUri
+import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
@@ -116,6 +118,31 @@ class Utils {
         return ""
     }
 
+    fun processTextFromFirebaseVisionText(resultText: FirebaseVisionText): Pair<List<String>, List<Rect>> {
+        val extractedWords = mutableListOf<String>()
+        val boundingBoxCoordinates = mutableListOf<Rect>()
+
+        if (resultText.textBlocks.isEmpty()) {
+            Log.e("FirebaseVision", "The FirebaseVisionText object is Empty")
+            return Pair(emptyList(), emptyList())
+        }
+
+        for (block in resultText.textBlocks) {
+            for (line in block.lines) {
+                line.elements.forEach { element ->
+                    val elementText = element.text
+                    val elementFrame = element.boundingBox
+
+                    removeSpecialCharacter(elementText)?.let { extractedWords.add(it) }
+                    elementFrame?.let { boundingBoxCoordinates.add(it) }
+                }
+            }
+        }
+
+        return Pair(extractedWords, boundingBoxCoordinates)
+
+    }
+
     /**
      * Converts a URI to a File.
      *
@@ -123,12 +150,12 @@ class Utils {
      * @param uri The URI to convert.
      * @return The corresponding File object.
      */
-    private fun uriToFile(context: Context, uri: Uri): File {
+    public fun uriToFile(context: Context, uri: Uri): File {
         // Open an input stream from the URI
         val inputStream = context.contentResolver.openInputStream(uri)
 
         // Create a temporary output file
-        val outputFile = File(context.cacheDir, "temp.pdf")
+        val outputFile = File(context.cacheDir, "temp.epub")
 
         try {
             // Use extension functions for InputStream and OutputStream to simplify resource handling
@@ -154,8 +181,14 @@ class Utils {
         return outputFile
     }
 
+    public fun removeSpecialCharacter(input: String): String {
+        return input.filter { it in 'A'..'Z' || it in 'a'..'z' }
+    }
+
+
     companion object {
         // Tag for logging purposes
         private const val TAG = "PDF_UTILS"
+        const val FIREBASE_VISION_TAG = "FirebaseVision"
     }
 }

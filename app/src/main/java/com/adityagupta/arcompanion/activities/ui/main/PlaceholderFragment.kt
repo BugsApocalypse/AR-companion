@@ -10,6 +10,7 @@ import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import com.adityagupta.data.local.entities.Document
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 
 class PlaceholderFragment : Fragment() {
 
@@ -71,7 +73,7 @@ class PlaceholderFragment : Fragment() {
         })
 
         binding.adddDocumentFloatingActionButton.setOnClickListener {
-            openFilePicker.launch("application/epub+zip")
+            openFilePicker.launch("application/pdf")
         }
 
 
@@ -80,7 +82,7 @@ class PlaceholderFragment : Fragment() {
             // Hide the "nothing found" layout
             binding.lfNothingFoundConstraintLayout.visibility = View.GONE
             // Launch the file picker for PDFs
-            openFilePicker.launch("application/epub+zip")
+            openFilePicker.launch("application/pdf")
         }
 
         return binding.root
@@ -98,6 +100,32 @@ class PlaceholderFragment : Fragment() {
     private val openFilePicker =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
+
+
+                val inputStream = requireContext().contentResolver.openInputStream(uri)
+
+                // Create a temporary output file
+                val outputFile = File(requireContext().cacheDir, "temp.pdf")
+
+                try {
+                    // Use extension functions for InputStream and OutputStream to simplify resource handling
+                    inputStream?.use { input ->
+                        outputFile.createNewFile()
+                        outputFile.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+
+                    // Log success
+
+                } catch (e: IOException) {
+                    // Log error
+
+                    // Handle IOException
+                    e.printStackTrace()
+                }
+
+
                 val pdfInfo = Utils().extractPdfInfo(requireContext(), uri)
 
                 val pdfTitle = pdfInfo.title ?: Utils().getFileNameFromUri(requireContext(), uri)
@@ -107,11 +135,11 @@ class PlaceholderFragment : Fragment() {
                 pageViewModel.insertDocument(document)
                 if (hasPermissions()) {
                     // Permissions are already granted, proceed with file copying logic
-                    copySelectedPdf(uri, pdfTitle)
+//                    copySelectedPdf(uri, pdfTitle)
                 } else {
                     // Request permissions
                     requestPermissions()
-                    copySelectedPdf(uri, pdfTitle)
+//                    copySelectedPdf(uri, pdfTitle)
                 }
 
 
