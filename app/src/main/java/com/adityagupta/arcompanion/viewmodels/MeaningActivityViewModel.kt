@@ -11,48 +11,39 @@ import com.adityagupta.arcompanion.api.interfaces.WikipediaAPI
 import com.adityagupta.arcompanion.repositories.MeaningRepository
 import com.adityagupta.data.OxfordWord
 import com.adityagupta.data.WikiData
+import com.adityagupta.data.wordApi.Definition
+import com.adityagupta.data.wordApi.WordApiDetailResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MeaningActivityViewModel(
-): ViewModel() {
+class MeaningActivityViewModel(private val meaningRepository: MeaningRepository): ViewModel() {
 
-    private val meaningRepository: MeaningRepository = MeaningRepository()
-
-    private val _wordOxford = MutableLiveData<OxfordWord>()
-    val wordOxford : LiveData<OxfordWord> = _wordOxford
-
-    private val _rootedWord = MutableLiveData<String>()
-    val rootedWord: LiveData<String> = _rootedWord
 
     private val _wikiData = MutableLiveData<WikiData>()
     val wikiData: LiveData<WikiData> = _wikiData
 
-    private val wikipediaAPI = WikipediaHelper.getInstance().create(WikipediaAPI::class.java)
+    private val _wordApiDetails = MutableLiveData<WordApiDetailResponse?>()
+    val wordApiDetails: MutableLiveData<WordApiDetailResponse?> = _wordApiDetails
 
+    private val wikipediaAPI = WikipediaHelper.getInstance().create(WikipediaAPI::class.java)
 
     fun getOxfordWordMeaning(word: String){
          viewModelScope.launch {
-                val result = meaningRepository.makeOxfordRequest(word)
-
-                _wordOxford.postValue(result)
-                _rootedWord.postValue(wordOxford.value?.title ?: "error")
+                val wordApiResult = meaningRepository.makeWordApiDetailRequest(word)
+                _wordApiDetails.postValue(wordApiResult)
             }
-
     }
 
-    fun getWikiData(word: String){
-        GlobalScope.launch {
+    fun getWikiData(word: String) {
+        viewModelScope.launch {
             val wikiResult = wikipediaAPI.getPageDetails(word ?: "error", 1)
-            val wikidata: WikiData = WikiData(
-                wikiResult.body()!!.pages[0].title,
-                wikiResult.body()!!.pages[0].excerpt,
-                wikiResult.body()!!.pages[0].thumbnail?.url?: "https://i.ibb.co/YhRN0Q3/toppng-com-erreur-404-473x341.png"
+            val wikidata = WikiData(
+                wikiResult.body()?.pages?.getOrNull(0)?.title.orEmpty(),
+                wikiResult.body()?.pages?.getOrNull(0)?.excerpt.orEmpty(),
+                wikiResult.body()?.pages?.getOrNull(0)?.thumbnail?.url.orEmpty()
+                    ?: "https://i.ibb.co/YhRN0Q3/toppng-com-erreur-404-473x341.png"
             )
-
             _wikiData.postValue(wikidata)
-
-
         }
     }
 }

@@ -7,32 +7,32 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
 
-    val baseUrl = "https://od-api.oxforddictionaries.com/api/v2/"
-    val appId = "adc85d41"
-    val appKey = "a17dedc41e84427519d4e78041ec6272"
+    private const val WORD_API_BASE_URL = "https://wordsapiv1.p.rapidapi.com/words/"
+    private const val WORD_API_KEY = "adaceaf5b0msh819f834f1af10b1p1714fajsn380db076de8b"
+    private const val WORD_API_HOST = "wordsapiv1.p.rapidapi.com"
 
     fun getInstance(): Retrofit {
-        return Retrofit.Builder().baseUrl(baseUrl)
-            .client(getHttpClient())
-            // we need to add converter factory to
-            // convert JSON object to Java object
+        return Retrofit.Builder()
+            .baseUrl(WORD_API_BASE_URL)
+            .client(createOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
-
             .build()
     }
 
-    fun getHttpClient(): OkHttpClient {
-
-        return  OkHttpClient.Builder().apply {
-            addInterceptor(
-                Interceptor { chain ->
-                    val builder = chain.request().newBuilder()
-                    builder.header("Accept", "application/json")
-                    builder.header("app_id", appId)
-                    builder.header("app_key", appKey)
-                    return@Interceptor chain.proceed(builder.build())
-                }
-            )
+    private fun createOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            addInterceptor(createInterceptor())
         }.build()
+    }
+
+    private fun createInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request().newBuilder()
+                .header("Accept", "application/json")
+                .header("X-RapidAPI-Key", WORD_API_KEY)
+                .header("X-RapidAPI-Host", WORD_API_HOST)
+                .build()
+            chain.proceed(request)
+        }
     }
 }

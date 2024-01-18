@@ -26,6 +26,8 @@
     <string name="permission_declined_alert_description">Wee need accesss to your local files in order to fetch the books for you ;-;</string>
     <string name="keyword_home_screen">Home Screen</string>
     <string name="keyword_give_permission">Give Permission</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

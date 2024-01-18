@@ -8,11 +8,17 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.TextureView
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.Utils
 import com.adityagupta.arcompanion.databinding.ActivityEreaderBinding
+import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
 import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener
 import com.github.barteksc.pdfviewer.listener.OnLongPressListener
@@ -56,6 +62,7 @@ class EReaderActivity : AppCompatActivity() {
             Log.e(TAG, "Error: pdfUri is null")
             finish()
         }
+
     }
 
     private fun loadPdfFromUri(pdfUri: Uri) {
@@ -103,6 +110,22 @@ class EReaderActivity : AppCompatActivity() {
         }
     }
 
+    private val longPressListener = OnLongPressListener {
+        val (x, y) = it.x to it.y
+        val index = boundingBoxCoordinates.indexOfFirst { i ->
+            x > i.left && x < i.right && y > i.top && y < i.bottom
+        }
+
+        if (index != -1) {
+            Log.i(Utils.FIREBASE_VISION_TAG, "Long press on ${extractedWords[index]}")
+
+
+            val modalBottomSheet = MeaningBottomSheetFragment.newInstance(extractedWords[index])
+            modalBottomSheet.show(supportFragmentManager, MeaningBottomSheetFragment.TAG)
+
+        }
+    }
+
     private fun createBitmapAndParseText() {
         val bitmap = getBitmapFromPDFView()
 
@@ -117,17 +140,6 @@ class EReaderActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.i(Utils.FIREBASE_VISION_TAG, "failed")
             }
-    }
-
-    private val longPressListener = OnLongPressListener {
-        val (x, y) = it.x to it.y
-        val index = boundingBoxCoordinates.indexOfFirst { i ->
-            x > i.left && x < i.right && y > i.top && y < i.bottom
-        }
-
-        if (index != -1) {
-            Log.i(Utils.FIREBASE_VISION_TAG, "Long press on ${extractedWords[index]}")
-        }
     }
 
     private fun getBitmapFromPDFView(): Bitmap {

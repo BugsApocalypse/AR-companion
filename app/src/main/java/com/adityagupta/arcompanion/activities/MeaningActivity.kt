@@ -10,8 +10,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.adityagupta.arcompanion.R
+import com.adityagupta.arcompanion.api.helpers.RetrofitHelper
+import com.adityagupta.arcompanion.api.interfaces.Api
 import com.adityagupta.arcompanion.databinding.ActivityMeaningBinding
+import com.adityagupta.arcompanion.repositories.MeaningRepository
 import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
+import com.adityagupta.arcompanion.viewmodels.ViewModelFactory
 import com.squareup.picasso.Picasso
 import java.io.IOException
 
@@ -19,9 +23,14 @@ import java.io.IOException
 class MeaningActivity : AppCompatActivity() {
 
     private lateinit var viewBinding: ActivityMeaningBinding
-    lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayer: MediaPlayer
+    private val wordApi: Api = RetrofitHelper.getInstance().create(Api::class.java)
 
-    val model: MeaningActivityViewModel by viewModels()
+    private val model: MeaningActivityViewModel by viewModels{
+        ViewModelFactory(
+            MeaningRepository(RetrofitHelper.getInstance().create(Api::class.java)),
+            )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,36 +44,36 @@ class MeaningActivity : AppCompatActivity() {
         model.getOxfordWordMeaning(word!!)
         model.getWikiData(word)
 
-        model.wordOxford.observe(this, Observer { word ->
-            if(word.title == "error"){
-                Toast.makeText(applicationContext, "Something went wrong!! :(", Toast.LENGTH_SHORT).show()
-                finish()
-            }else {
-                viewBinding.progressBar.visibility = View.INVISIBLE
-                viewBinding.consLayout5.visibility = View.VISIBLE
-                viewBinding.wikiConstraintLayout.visibility = View.VISIBLE
-                viewBinding.wikiTitleText.visibility = View.VISIBLE
-                viewBinding.wordTitle.text = word.title
-                viewBinding.wordDef1.text = word.definition
-                viewBinding.wordExample1.text = word.example
-                viewBinding.speaker.setOnClickListener {
-                    playAudio(word.audioUrl)
-                }
-            }
-        })
+//        model.wordOxford.observe(this, Observer { word ->
+//            if(word.title == "error"){
+//                Toast.makeText(applicationContext, "Something went wrong!! :(", Toast.LENGTH_SHORT).show()
+//                finish()
+//            }else {
+//                viewBinding.progressBar.visibility = View.INVISIBLE
+//                viewBinding.consLayout5.visibility = View.VISIBLE
+//                viewBinding.wikiConstraintLayout.visibility = View.VISIBLE
+//                viewBinding.wikiTitleText.visibility = View.VISIBLE
+//                viewBinding.wordTitle.text = word.title
+//                viewBinding.wordDef1.text = word.definition
+//                viewBinding.wordExample1.text = word.example
+//                viewBinding.speaker.setOnClickListener {
+//                    playAudio(word.audioUrl)
+//                }
+//            }
+//        })
 
-        model.wikiData.observe(this, Observer {
-            viewBinding.wikiConstraintLayout.setOnClickListener {
-                startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", model.rootedWord.value))
-            }
-
-            viewBinding.wikiTitle.text = it.title
-            viewBinding.wikiDescription.text =it.description
-            Picasso.with(applicationContext)
-                .load("https:" + (it.url))
-                .into(viewBinding.wikiImageView)
-
-        })
+//        model.wikiData.observe(this, Observer {
+//            viewBinding.wikiConstraintLayout.setOnClickListener {
+//                startActivity(Intent(this@MeaningActivity, WikipediaWebViewActivity::class.java).putExtra("title", model.rootedWord.value))
+//            }
+//
+//            viewBinding.wikiTitle.text = it.title
+//            viewBinding.wikiDescription.text =it.description
+//            Picasso.with(applicationContext)
+//                .load("https:" + (it.url))
+//                .into(viewBinding.wikiImageView)
+//
+//        })
     }
 
     private fun playAudio(audio: String?) {
