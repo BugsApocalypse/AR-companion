@@ -53,11 +53,12 @@ class MeaningBottomSheetFragment : BottomSheetDialogFragment() {
                 bottomSheetProgressBar.visibility = View.GONE
                 selectedWordDefinitionTextView.visibility = View.VISIBLE
                 selectedWordExampleTextView.visibility = View.VISIBLE
-                selectedWordDefinitionTextView.text = result.results?.getOrNull(0)?.definition.orEmpty()
-                selectedWordExampleTextView.text = result.results?.getOrNull(0)?.examples?.getOrNull(0).orEmpty()
+                selectedWordDefinitionTextView.text = result?.results?.getOrNull(0)?.definition ?: "We couldn't find the meaning of this word :("
+                selectedWordExampleTextView.text = result?.results?.getOrNull(0)?.examples?.getOrNull(0).orEmpty()
             }
         } ?: run {
-            Toast.makeText(requireContext(), "Something went wrong!! :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Unable to retrieve word meaning. Please try again, or try some other word.", Toast.LENGTH_SHORT).show()
+            dismiss()
         }
 
     }
@@ -68,8 +69,6 @@ class MeaningBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val TAG = "MeaningBottomSheet"
-
         fun newInstance(selectedWord: String) = MeaningBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putString("selectedWord", selectedWord)

@@ -190,5 +190,6 @@ class Utils {
         // Tag for logging purposes
         private const val TAG = "PDF_UTILS"
         const val FIREBASE_VISION_TAG = "FirebaseVision"
+        const val MEANING_BOTTOM_SHEET_TAG = "MeaningBottomSheet"
     }
 }
