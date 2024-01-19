@@ -32,13 +32,8 @@ import java.io.IOException
 
 class PlaceholderFragment : Fragment() {
 
-
-
     private lateinit var sharedPreferences: SharedPreferences
 
-
-    // ViewModel instance
-    // View binding instance
     private var _binding: FragmentLibraryBinding? = null
     private val binding get() = _binding!!
     private val pageViewModel: PageViewModel by activityViewModels {
@@ -48,8 +43,6 @@ class PlaceholderFragment : Fragment() {
         )
 
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,18 +86,13 @@ class PlaceholderFragment : Fragment() {
 
         sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-        // Check and request permissions
 
     }
 
     private val openFilePicker =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-
-
                 val inputStream = requireContext().contentResolver.openInputStream(uri)
-
-                // Create a temporary output file
                 val outputFile = File(requireContext().cacheDir, "temp.pdf")
 
                 try {
@@ -115,31 +103,22 @@ class PlaceholderFragment : Fragment() {
                             input.copyTo(output)
                         }
                     }
-
-                    // Log success
-
                 } catch (e: IOException) {
-                    // Log error
-
-                    // Handle IOException
                     e.printStackTrace()
                 }
 
-
                 val pdfInfo = Utils().extractPdfInfo(requireContext(), uri)
-
                 val pdfTitle = pdfInfo.title ?: Utils().getFileNameFromUri(requireContext(), uri)
-
                 val document = createDocumentFromPdfInfo(uri.toString(), pdfTitle, pdfInfo)
-
                 pageViewModel.insertDocument(document)
+
                 if (hasPermissions()) {
                     // Permissions are already granted, proceed with file copying logic
-//                    copySelectedPdf(uri, pdfTitle)
+                    copySelectedPdf(uri, pdfTitle)
                 } else {
                     // Request permissions
                     requestPermissions()
-//                    copySelectedPdf(uri, pdfTitle)
+                    copySelectedPdf(uri, pdfTitle)
                 }
 
 
@@ -162,7 +141,6 @@ class PlaceholderFragment : Fragment() {
             }
         }
 
-        // Save the file path in SharedPreferences
         sharedPreferences.edit().putString(uri.toString(), destinationFile.absolutePath).apply()
     }
 
@@ -180,7 +158,7 @@ class PlaceholderFragment : Fragment() {
             creator = pdfInfo.creator ?: "",
             producer = pdfInfo.producer ?: "",
             subject = pdfInfo.subject ?: "",
-            docLocalUri = docLocalUri
+            docLocalUri = docLocalUri,
         )
 
     }

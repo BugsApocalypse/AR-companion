@@ -19,8 +19,6 @@
     <string name="title_activity_pdf_viewer">PdfViewerActivity</string>
     <string name="title_activity_library">LibraryActivity</string>
     <string name="library_tab_text_1">Your Books</string>
-    <string name="library_tab_text_2">Shelves</string>
-    <string name="library_tab_text_3">Series</string>
     <string name="_404_not_found_image">404 not found image</string>
     <string name="permission_declined_alert_title">Oops!</string>
     <string name="permission_declined_alert_description">Wee need accesss to your local files in order to fetch the books for you ;-;</string>

@@ -21,6 +21,8 @@ interface DocumentDao {
     @Query("SELECT * FROM Document WHERE title LIKE :title")
     fun findByTitle(title: String): List<Document>
 
+    @Query("UPDATE Document SET currentLocation = :newCurrentLocation WHERE docId LIKE :documentId")
+    suspend fun updateDocumentLocation(newCurrentLocation: Long, documentId: Long)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert( documents: Document)

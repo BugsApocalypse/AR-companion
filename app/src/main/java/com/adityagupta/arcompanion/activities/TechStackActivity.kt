@@ -20,41 +20,26 @@ class TechStackActivity : AppCompatActivity() {
         viewBinding.bottomNavigation.selectedItemId = R.id.tech
 
         viewBinding.bottomNavigation.setOnItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.tech -> {
-                    var intent = Intent(applicationContext, TechStackActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    this.finish()
-                    true
-                }
-                R.id.home -> {
-                    var intent = Intent(applicationContext, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    this.finish()
-                    true
+            // Create intent based on the selected item
+            val intent = when (item.itemId) {
+                R.id.tech -> Intent(this, TechStackActivity::class.java)
+                R.id.home -> Intent(this, MainActivity::class.java)
+                R.id.list -> Intent(this, ARSupportedActivity::class.java)
+                R.id.about -> Intent(this, AboutActivity::class.java)
+                R.id.library -> Intent(this, LibraryActivity::class.java)
 
-                }
-                R.id.list -> {
-                    var intent = Intent(applicationContext, ARSupportedActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    this.finish()
-                    true
-                }
-                R.id.about -> {
-                    var intent = Intent(applicationContext, AboutActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    this.finish()
-                    true
-                }
-                else -> {
-                    false
-                }
-
+                else -> null
             }
+            // Add flags to the intent
+            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            // Start the new activity
+            startActivity(intent)
+            // Finish the current activity
+            finish()
+            // Return true to indicate the item selection is handled
+            true
         }
     }
 }

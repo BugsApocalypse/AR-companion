@@ -2,6 +2,7 @@ package com.adityagupta.arcompanion.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Rect
@@ -14,9 +15,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.adityagupta.arcompanion.ARCompanionApplication
 import com.adityagupta.arcompanion.R
 import com.adityagupta.arcompanion.Utils
+import com.adityagupta.arcompanion.activities.ui.main.LibraryFragmentViewModelFactory
+import com.adityagupta.arcompanion.activities.ui.main.PageViewModel
 import com.adityagupta.arcompanion.databinding.ActivityEreaderBinding
 import com.adityagupta.arcompanion.viewmodels.MeaningActivityViewModel
 import com.github.barteksc.pdfviewer.PDFView
@@ -41,32 +46,62 @@ class EReaderActivity : AppCompatActivity() {
     private var hideViewsJob: Job? = null
     private var extractedWords = mutableListOf<String>()
     private var boundingBoxCoordinates = mutableListOf<Rect>()
-
+    private var currentDocumentLocation: Long = 0
+    private var documentId: Long? = null
+    private val pageViewModel: PageViewModel by viewModels {
+        LibraryFragmentViewModelFactory(
+            (this.application as ARCompanionApplication).database.documentDao()
+        )
+    }
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize the view binding
         eReaderBinding = ActivityEreaderBinding.inflate(layoutInflater)
         setContentView(eReaderBinding.root)
 
-        // Retrieve the PDF URI from the intent
         pdfUri = intent.getParcelableExtra("selectedDocumentUri")
+        currentDocumentLocation = intent.getLongExtra("selectedDocumentLocation", 0L)
+        documentId = intent.getLongExtra("selectedDocumentId", 0L)
 
-        // Check if pdfUri is not null before proceeding
+
         pdfUri?.let {
-            // Load and display the PDF
             loadPdfFromUri(it)
         } ?: run {
-            // Handle the case where pdfUri is null
             Log.e(TAG, "Error: pdfUri is null")
             finish()
+        }
+        eReaderBinding.bottomNavigation.selectedItemId = R.id.library
+        eReaderBinding.bottomNavigation.setOnItemSelectedListener { item ->
+            // Create intent based on the selected item
+            val intent = when (item.itemId) {
+                R.id.tech -> Intent(this, TechStackActivity::class.java)
+                R.id.home -> Intent(this, MainActivity::class.java)
+                R.id.list -> Intent(this, ARSupportedActivity::class.java)
+                R.id.about -> Intent(this, AboutActivity::class.java)
+                R.id.library -> Intent(this, LibraryActivity::class.java)
+
+                else -> null
+            }
+            // Add flags to the intent
+            intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            // Start the new activity
+            startActivity(intent)
+            // Finish the current activity
+            finish()
+            // Return true to indicate the item selection is handled
+            true
         }
 
     }
 
     private fun loadPdfFromUri(pdfUri: Uri) {
         val filePath = getFilePathFromSharedPreferences(pdfUri.toString())
+        Log.i("document2", filePath.toString())
+        Log.i("document2", pdfUri.toString())
+
         filePath?.let { displayPdf(File(it)) }
     }
 
@@ -76,6 +111,7 @@ class EReaderActivity : AppCompatActivity() {
             .enableSwipe(true)
             .enableAnnotationRendering(true)
             .enableAntialiasing(true)
+            .defaultPage(currentDocumentLocation.toInt())
             .autoSpacing(true)
             .pageSnap(true)
             .pageFling(true)
@@ -107,6 +143,7 @@ class EReaderActivity : AppCompatActivity() {
             hideViews()
 
             createBitmapAndParseText()
+            pageViewModel.updateCurrentLocation(page.toLong(), documentId!! )
         }
     }
 
@@ -115,13 +152,10 @@ class EReaderActivity : AppCompatActivity() {
         val index = boundingBoxCoordinates.indexOfFirst { i ->
             x > i.left && x < i.right && y > i.top && y < i.bottom
         }
-
         if (index != -1) {
             Log.i(Utils.FIREBASE_VISION_TAG, "Long press on ${extractedWords[index]}")
-
-
             val modalBottomSheet = MeaningBottomSheetFragment.newInstance(extractedWords[index])
-            modalBottomSheet.show(supportFragmentManager, MeaningBottomSheetFragment.TAG)
+            modalBottomSheet.show(supportFragmentManager, Utils.MEANING_BOTTOM_SHEET_TAG)
 
         }
     }

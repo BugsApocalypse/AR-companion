@@ -16,7 +16,8 @@ data class Document(
     @ColumnInfo(name = "creator") val creator: String = "",
     @ColumnInfo(name = "producer") val producer: String = "",
     @ColumnInfo(name = "subject") val subject: String = "",
-    @ColumnInfo(name = "docLocalUri") val docLocalUri: String
+    @ColumnInfo(name = "docLocalUri") val docLocalUri: String,
+    @ColumnInfo(name = "currentLocation") val currentLocation: Long = 0
 ) : Parcelable {
 
     // Implement the writeToParcel method
@@ -29,6 +30,7 @@ data class Document(
         parcel.writeString(producer)
         parcel.writeString(subject)
         parcel.writeString(docLocalUri)
+        parcel.writeLong(currentLocation)
     }
 
     // Implement the describeContents method
@@ -58,6 +60,7 @@ data class Document(
         creator = parcel.readString() ?: "",
         producer = parcel.readString() ?: "",
         subject = parcel.readString() ?: "",
-        docLocalUri = parcel.readString() ?: ""
+        docLocalUri = parcel.readString() ?: "",
+        currentLocation = parcel.readLong()
     )
 }

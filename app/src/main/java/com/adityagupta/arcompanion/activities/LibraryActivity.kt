@@ -30,16 +30,12 @@ class LibraryActivity : AppCompatActivity() {
 
         binding = ActivityLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupBottomNavigation()
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val viewPager: ViewPager = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
         tabs.setupWithViewPager(viewPager)
-
-
-
 
     }
 
@@ -60,6 +56,7 @@ class LibraryActivity : AppCompatActivity() {
             }
             // Add flags to the intent
             intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             // Start the new activity
             startActivity(intent)
             // Finish the current activity

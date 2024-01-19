@@ -36,7 +36,12 @@ class DocumentsAdapter(
                 onItemClickListener?.onItemClick(document)
                 val intent = Intent(context, EReaderActivity::class.java );
                 intent.putExtra("selectedDocumentUri", Uri.parse(document.docLocalUri))
+                intent.putExtra("selectedDocumentLocation", document.currentLocation)
+                intent.putExtra("selectedDocumentId", document.docId)
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+                Log.i("document", document.toString())
                 Log.i("pdfDebug", Uri.parse(document.docLocalUri).toString())
                 context.startActivity(intent)
             }

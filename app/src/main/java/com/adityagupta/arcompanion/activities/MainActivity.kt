@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             }
             // Add flags to the intent
             intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            // Start the new activity
+            intent?.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent)
             // Finish the current activity
             finish()

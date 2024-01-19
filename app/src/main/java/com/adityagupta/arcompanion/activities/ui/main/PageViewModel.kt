@@ -15,7 +15,6 @@ class PageViewModel(private val documentDao: DocumentDao) : ViewModel() {
 
     val allDocuments: LiveData<List<Document>> = documentDao.getAllDocuments().asLiveData()
 
-
     private val _index = MutableLiveData<Int>()
     val text: LiveData<String> = _index.map {
         "Hello world from section: $it"
@@ -23,6 +22,12 @@ class PageViewModel(private val documentDao: DocumentDao) : ViewModel() {
 
     fun setIndex(index: Int) {
         _index.value = index
+    }
+
+    public fun updateCurrentLocation(pageNumber: Long, documentId: Long){
+        viewModelScope.launch {
+            documentDao.updateDocumentLocation(pageNumber, documentId)
+        }
     }
 
     public fun insertDocument(document: Document) {
